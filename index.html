@@ -15,6 +15,16 @@
     <div class="select-images">
       <input type="file"  name="images[]" multiple />
     </div>
+    <div class="preview"></div>
+    <div class="controls">
+      <label for="fps">FPS (<span class="value">25</span>)</label>
+      <input id="fps" class="fps" type="range" min="1" max="60" value="25" />
+      <label for="quality">Quality (<span class="value">8</span>)</label>
+      <input id="quality" class="quality" type="range" min="1" max="10" value="8" />
+      <br /><br />
+      <button class="generate">Generate it</button>
+    </div>
+    <div class="rendered"></div>
   </div>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   <script type="text/javascript" src="/js/bootstrap.min.js"></script>

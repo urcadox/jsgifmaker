@@ -1,7 +1,16 @@
 var JSGifMaker = {
   init: function() {
+    var that = this;
     this.fileApiSupportCheck();
     $(".select-images input").change(_.bind(this.imagesSelectedHandler, this));
+    $(".controls input[type=range]").change(function() {
+      $(this).prev().find(".value").text(this.value);
+    });
+    $(".controls .fps").change(function() {
+      if(typeof that.previewInterval != "undefined") {
+        that.setRefreshInterval(this.value);
+      }
+    });
   },
 
   canvases: [],
@@ -30,18 +39,32 @@ var JSGifMaker = {
 
   imagesLoadedHandler: function() {
     var that = this,
-        div = $(".gif"),
-        i = 0;
+        div = $(".preview");
+    this.previewIndex = 0;
     this.canvases = _.sortBy(this.canvases, function(c) { return $(c).data("img-name"); });
+    div.width(this.canvases[0].width);
+    div.height(this.canvases[0].height);
     this.canvases.forEach(function(c) {
       div.append(c);
     });
-    setInterval(function() {
-      var prev = i % that.canvases.length;
-      var current = ++i % that.canvases.length;
-      that.canvases[prev].style.visibility = "hidden";
-      that.canvases[current].style.visibility = "visible";
-    }, 50);
+    this.setRefreshInterval(parseInt($(".controls .fps").val()));
+  },
+
+  setRefreshInterval: function(fps) {
+    if(typeof this.previewInterval != "undefined") {
+      clearInterval(this.previewInterval);
+    }
+    this.previewInterval = setInterval(
+      _.bind(this.refreshPreview, this),
+      1000 / fps
+    );
+  },
+
+  refreshPreview: function() {
+    var prev = this.previewIndex % this.canvases.length;
+    var current = ++this.previewIndex % this.canvases.length;
+    this.canvases[prev].style.visibility = "hidden";
+    this.canvases[current].style.visibility = "visible";
   },
 
   fileApiSupportCheck: function() {
