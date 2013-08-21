@@ -3,6 +3,7 @@ var JSGifMaker = {
     var that = this;
     this.fileApiSupportCheck();
     $(".select-images input").change(_.bind(this.imagesSelectedHandler, this));
+    $(".controls .generate").click(_.bind(this.generate, this));
     $(".controls input[type=range]").change(function() {
       $(this).prev().find(".value").text(this.value);
     });
@@ -71,6 +72,28 @@ var JSGifMaker = {
     if(!(window.File && window.FileReader && window.FileList && window.Blob)) {
       $(".alert.fileapinotsupported").show();
     }
+  },
+
+  generate: function() {
+    var gif = new GIF({
+      workers: 4,
+      quality: parseInt($(".controls .quality").val()),
+      workerScript: "js/gif.worker.js"
+    });
+
+    this.canvases.forEach(function(c) {
+      gif.addFrame(c, { delay: Math.round(1000/parseInt($(".controls .fps").val())) });
+    });
+
+    gif.on("finished", function(blob) {
+      var img = $(document.createElement("img"));
+      img.attr("src", URL.createObjectURL(blob));
+
+      $(".rendered").empty();
+      img.appendTo($(".rendered"));
+    });
+
+    gif.render();
   }
 };
 JSGifMaker.init();
