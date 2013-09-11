@@ -91,8 +91,15 @@ var JSGifMaker = {
 
       $(".rendered").empty();
       img.appendTo($(".rendered"));
+      $(".progress").hide();
+      $(".progress .bar").width("0%");
     });
 
+    gif.on("progress", function(x) {
+      $(".progress .bar").width(x * 100 + "%");
+    });
+
+    $(".progress").show();
     gif.render();
   }
 };
