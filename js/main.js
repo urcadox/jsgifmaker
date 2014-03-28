@@ -122,8 +122,9 @@ var JSGifMaker = {
 
     var i = 0;
     var equal = true;
-    while(i <= data1.length && equal) {
-      equal = data1[i] == data2[i];
+    while(i <= Math.round(data1.length / 200) && equal) {
+      var x = _.random(0, data1.length)
+      equal = data1[x] == data2[x];
       i++;
     }
     return equal;
