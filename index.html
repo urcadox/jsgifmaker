@@ -12,11 +12,24 @@
     <div class="alert alert-error fileapinotsupported">
       Your browser does not support the File API. You need to upgrade it or switch to another one.
     </div>
-    <div class="select-images">
+    <div class="select-file select-images">
+      <h3>Select images</h3>
       <input type="file"  name="images[]" multiple />
+    </div>
+    <div class="select-file select-video">
+      <h3>Select a video</h3>
+      <input type="file"  name="video" />
+      <div class="parameters">
+        <div class="input">
+          <label for="fps">FPS (<span class="value">25</span>)</label>
+          <input id="fps" class="fps" type="range" min="1" max="60" value="25" />
+        </div>
+        <button class="extract-frames">Extract frames</button>
+      </div>
     </div>
     <div class="preview"></div>
     <div class="controls">
+      <h3>Output</h3>
       <label for="fps">FPS (<span class="value">25</span>)</label>
       <input id="fps" class="fps" type="range" min="1" max="60" value="25" />
       <label for="quality">Quality (<span class="value">8</span>)</label>
