@@ -144,8 +144,10 @@ var JSGifMaker = {
       workerScript: "js/gif.worker.js"
     });
 
+    var delay = Math.round(1000/parseInt($(".controls .fps").val()));
+
     this.canvases.forEach(function(c) {
-      gif.addFrame(c, { delay: Math.round(1000/parseInt($(".controls .fps").val())) });
+      gif.addFrame(c, { delay: delay });
     });
 
     gif.on("finished", function(blob) {
